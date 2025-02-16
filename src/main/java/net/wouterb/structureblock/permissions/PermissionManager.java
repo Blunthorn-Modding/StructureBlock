@@ -11,11 +11,13 @@ import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.gen.StructureAccessor;
 import net.minecraft.world.gen.structure.Structure;
+import net.wouterb.structureblock.config.BlacklistEntry;
 import net.wouterb.structureblock.config.ModConfig;
 import net.wouterb.structureblock.config.ModConfigManager;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -46,11 +48,14 @@ public class PermissionManager {
         if (structure == null)
             return false;
 
-        boolean isLocked = isStructureLocked(world, structure, lockedList);
-        if (isLocked)
+        boolean isStructureLocked = isStructureLocked(world, structure, lockedList);
+        boolean isBlockBlacklisted = isBlockBlacklisted(world, structure, blockId);
+        if (isStructureLocked || isBlockBlacklisted) {
             notifyPlayerLocked(player);
+            return true;
+        }
 
-        return isLocked;
+        return false;
     }
 
     private static boolean isBlockInsideStructure(ServerWorld world, BlockPos blockPos) {
@@ -94,11 +99,26 @@ public class PermissionManager {
         return false;
     }
 
-    public static boolean doesIdMatchWildcard(String structureId, String[] wildcardList) {
+    private static boolean isBlockBlacklisted(ServerWorld world, Structure structure, String blockId) {
+        String structureId = getStructureId(world, structure);
+        List<BlacklistEntry> blacklist = ModConfigManager.getLockedStructures().blacklist;
 
+        for (BlacklistEntry entry : blacklist) {
+            if (doesIdMatchWildcard(structureId, new String[]{entry.structure})) {
+                for (String blacklistedBlock : entry.blocks) {
+                    if (doesIdMatchWildcard(blockId, new String[]{blacklistedBlock})) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public static boolean doesIdMatchWildcard(String id, String[] wildcardList) {
         for (String wildcard : wildcardList) {
             String regex = convertWildcardToRegex(wildcard);
-            if (Pattern.matches(regex, structureId)) {
+            if (Pattern.matches(regex, id)) {
                 return true;
             }
         }

@@ -8,32 +8,27 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.Collections;
+import java.util.List;
 
 public class LockedStructures {
     public final String[] breaking_and_placing;
     public final String[] breaking;
     public final String[] placement;
-
+    public final List<BlacklistEntry> blacklist;
 
     public LockedStructures(){
         breaking_and_placing = new String[]{};
         breaking = new String[]{};
         placement = new String[]{};
+        blacklist = Collections.emptyList();
     }
 
-    public LockedStructures(String[] breaking, String[] placement, String[] breaking_and_placing) {
+    public LockedStructures(String[] breaking, String[] placement, String[] breaking_and_placing, List<BlacklistEntry> blacklist) {
         this.breaking_and_placing = breaking_and_placing;
         this.breaking = breaking;
         this.placement = placement;
-    }
-
-    public String[] getFieldByString(String propertyName) {
-        return switch (propertyName) {
-            case "breaking_and_placing" -> breaking_and_placing;
-            case "breaking" -> breaking;
-            case "placement" -> placement;
-            default -> throw new IllegalArgumentException("Invalid property name: " + propertyName);
-        };
+        this.blacklist = blacklist;
     }
 
     public static LockedStructures generateDefaultLockedStructures() {
