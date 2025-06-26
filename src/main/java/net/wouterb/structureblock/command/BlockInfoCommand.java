@@ -42,19 +42,17 @@ public class BlockInfoCommand {
             System.out.println("Player is null!");
             return 1;
         }
-        BlockState targetedBlockState = getPlayerTargetedBlock((PlayerEntity) player, 20f);
+        BlockState targetedBlockState = getPlayerTargetedBlock(player, 20f);
 
         String blockId = "None";
         Structure structure = PermissionManager.getStructure(player.getServerWorld(), player.getBlockPos());
         String structureId = PermissionManager.getStructureId(player.getServerWorld(), structure);
 
-        if (structureId == null) structureId = "None";
-
         if (targetedBlockState != null)
             blockId = Registries.BLOCK.getId(targetedBlockState.getBlock()).toString();
 
         sendClickableMessage(player, "Targeted block: ", blockId);
-        sendClickableMessage(player, "Currently inside structure: ", structureId);
+        sendClickableMessage(player, "Standing inside structure: ", structureId);
 
         return 1;
     }
@@ -93,8 +91,11 @@ public class BlockInfoCommand {
         // Create the clickable part of the message
         Text clickableText = Text.literal("[" + copyText + "]")
                 .formatted(Formatting.GREEN)
-                .styled(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, copyText))
-                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Text.literal("Click to copy"))));
+                .styled(style -> style.withClickEvent(new ClickEvent.CopyToClipboard(copyText))
+                        .withHoverEvent(new HoverEvent.ShowText(Text.literal("Click to copy")))
+                );
+//                .styled(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, copyText))
+//                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Text.literal("Click to copy"))));
 
         // Combine the main message and the clickable text
         Text finalMessage = mainMessage.copy().append(clickableText);
