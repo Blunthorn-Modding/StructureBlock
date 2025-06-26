@@ -3,6 +3,8 @@ package net.wouterb.structureblock.permissions;
 import it.unimi.dsi.fastutil.longs.LongSet;
 import net.minecraft.block.BlockState;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -77,7 +79,9 @@ public class PermissionManager {
     }
 
     public static String getStructureId(ServerWorld world, Structure structure) {
-        return world.getRegistryManager().get(RegistryKeys.STRUCTURE).getId(structure).toString();
+        Registry<Structure> registry = world.getRegistryManager().getOrThrow(RegistryKeys.STRUCTURE);
+        RegistryKey<Structure> key = registry.getKey(structure).orElse(null);
+        return key != null ? key.getValue().toString() : "None";
     }
 
     private static boolean isStructureLocked(ServerWorld world, Structure structure, String[] lockedList) {
