@@ -91,11 +91,10 @@ public class BlockInfoCommand {
         // Create the clickable part of the message
         Text clickableText = Text.literal(" [" + copyText + "]")
                 .formatted(Formatting.GREEN)
-                .styled(style -> style.withClickEvent(new ClickEvent.CopyToClipboard(copyText))
-                        .withHoverEvent(new HoverEvent.ShowText(Text.translatable("message.structureblock.click_to_copy")))
+                .styled(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, copyText))
+                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                                Text.translatable("message.structureblock.click_to_copy")))
                 );
-//                .styled(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, copyText))
-//                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Text.literal("Click to copy"))));
 
         // Combine the main message and the clickable text
         Text finalMessage = mainMessage.copy().append(clickableText);

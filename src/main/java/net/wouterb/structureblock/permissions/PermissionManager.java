@@ -79,7 +79,7 @@ public class PermissionManager {
     }
 
     public static String getStructureId(ServerWorld world, Structure structure) {
-        Registry<Structure> registry = world.getRegistryManager().getOrThrow(RegistryKeys.STRUCTURE);
+        Registry<Structure> registry = world.getRegistryManager().get(RegistryKeys.STRUCTURE);
         RegistryKey<Structure> key = registry.getKey(structure).orElse(null);
         return key != null ? key.getValue().toString() : "None";
     }
