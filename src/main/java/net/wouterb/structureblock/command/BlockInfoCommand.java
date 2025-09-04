@@ -51,8 +51,8 @@ public class BlockInfoCommand {
         if (targetedBlockState != null)
             blockId = Registries.BLOCK.getId(targetedBlockState.getBlock()).toString();
 
-        sendClickableMessage(player, "Targeted block: ", blockId);
-        sendClickableMessage(player, "Standing inside structure: ", structureId);
+        sendClickableMessage(player, "message.structureblock.targeted_block", blockId);
+        sendClickableMessage(player, "message.structureblock.inside_structure", structureId);
 
         return 1;
     }
@@ -84,15 +84,15 @@ public class BlockInfoCommand {
         return null;
     }
 
-    private static void sendClickableMessage(ServerPlayerEntity player, String message, String copyText) {
+    private static void sendClickableMessage(ServerPlayerEntity player, String translation_key, String copyText) {
         // Create the main part of the message
-        Text mainMessage = Text.literal(message).formatted(Formatting.WHITE); // Formatting is optional
+        Text mainMessage = Text.translatable(translation_key).formatted(Formatting.WHITE); // Formatting is optional
 
         // Create the clickable part of the message
-        Text clickableText = Text.literal("[" + copyText + "]")
+        Text clickableText = Text.literal(" [" + copyText + "]")
                 .formatted(Formatting.GREEN)
                 .styled(style -> style.withClickEvent(new ClickEvent.CopyToClipboard(copyText))
-                        .withHoverEvent(new HoverEvent.ShowText(Text.literal("Click to copy")))
+                        .withHoverEvent(new HoverEvent.ShowText(Text.translatable("message.structureblock.click_to_copy")))
                 );
 //                .styled(style -> style.withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, copyText))
 //                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Text.literal("Click to copy"))));
