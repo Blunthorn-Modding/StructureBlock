@@ -124,7 +124,6 @@ public class PermissionManager {
     public static void notifyPlayerLocked(ServerPlayerEntity player) {
         if (!ModConfig.getNotifyPlayerOnBreak()) return;
 
-        String message = "You are not allowed to modify blocks inside this structure!";
-        player.sendMessage(Text.of(message), true);
+        player.sendMessage(Text.translatable("message.structureblock.notify_player_locked"), true);
     }
 }

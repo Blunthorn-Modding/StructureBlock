@@ -1,0 +1,7 @@
+{
+  "message.structureblock.notify_player_locked": "Cette structure est protégée contre les modifications !",
+  "message.structureblock.targeted_block": "Bloc ciblé :",
+  "message.structureblock.inside_structure": "Vous êtes dans la structure :",
+  "message.structureblock.click_to_copy": "Cliquez pour copier",
+  "message.structureblock.config_reloaded": "La configuration du StructureBlock a été rechargée !"
+}
