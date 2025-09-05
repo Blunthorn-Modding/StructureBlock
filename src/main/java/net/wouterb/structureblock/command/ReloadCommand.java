@@ -23,7 +23,7 @@ public class ReloadCommand {
         ModConfigManager.registerConfig();
         ServerPlayerEntity player = source.getPlayer();
         if (player != null)
-            player.sendMessage(Text.of("Reloaded the StructureBlock config!"));
+            player.sendMessage(Text.translatable("message.structureblock.config_reloaded"));
         return 1;
     }
 }

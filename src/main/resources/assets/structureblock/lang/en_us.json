@@ -1,5 +1,7 @@
 {
+  "message.structureblock.notify_player_locked": "You are not allowed to modify blocks inside this structure!",
   "message.structureblock.targeted_block": "Targeted block:",
   "message.structureblock.inside_structure": "Standing inside structure:",
-  "message.structureblock.click_to_copy": "Click to copy"
+  "message.structureblock.click_to_copy": "Click to copy",
+  "message.structureblock.config_reloaded": "StructureBlock config reloaded!"
 }
